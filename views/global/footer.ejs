@@ -1,0 +1,17 @@
+<footer>
+  <%if(title != "Index") {%>
+    <form action="/" method="get">
+      <button type="submit" id = "log_out">
+      Log Out
+      </button>
+    </form>
+    <%if(title != "Details" && title != "stats" && title != "rules"  && title != "about") {%>
+      <form action="/user/<%=user.name%>/edit" method="get">
+        <button type="submit" id = "update">
+        Update Account
+        </button>
+      </form>
+    <%}%>
+  <%}%>
+  <p>Brought to you by Sadi Gulcelik and Ayesha Ali - Fall, 2018.</p>
+</footer>
