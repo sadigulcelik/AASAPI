@@ -46,49 +46,50 @@ app.get('/', function(request, response){
   response.render('index', {page:request.url, user:user_data, title:"Index"});
 });
 
-//handles a request for the rules page (sends the user to the rules page)
-app.get('/rules', function(request, response){
-    dataJS.increment("rules");
-  user_data = {}
+//shows home page aka signup page
+app.get('/sign_up', function(request, response){
+  console.log("GET request: /sign_up");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('rules', {page:request.url, user:user_data, title:"rules"});
+  response.render('sign_up', {});
+});
+//logs the user out and shows home page/signup page
+app.get('/logout', function(request, response){
+  console.log("GET request: /logout");
+  //log the user  out code here
+  response.redirect('/sign_up');
 });
 
-//handles a request for the rules page (inputs the necessary data and sends the user to the newly rendered stats page)
-app.get('/stats', function(request, response){
-    dataJS.increment("stats");
-  dataJS.loadGoogle(1, function(user_data){
-    dataJS.loadGoogle(2, function(villain_data){
-        dataJS.loadUsage(function(usageData){
-      var data = {};
-        
-        //sorting by win rate
-        user_data.sort(function(a,b) {var bPercent = 0;if (b.total == 0) {bPercent = 0;  } else {bPercent =Math.round((b.wins/b.total)*100); } var aPercent = 0; if (a.total == 0) { aPercent = 0; } else {aPercent =Math.round((a.wins/a.total)*100);}return (bPercent-aPercent); });
-        
-        
-      data["player"] = user_data;
-    
-        //sorting by win rate
-     villain_data.sort(function(a,b) {var bPercent = 0;if (b.total == 0) {bPercent = 0;  } else {bPercent =Math.round((b.wins/b.total)*100); } var aPercent = 0; if (a.total== 0) { aPercent = 0; } else {aPercent =Math.round((a.wins/a.total)*100);}return (bPercent-aPercent); });
-    
-      data["villain"] = villain_data;
-        
-        data["usage"]=usageData;
-      dataJS.log(user_data);
-      response.status(200);
-      response.setHeader('Content-Type', 'text/html')
-      response.render('stats', {page:request.url, user:data, title:"stats"});
-    });
-    });
-  });
-});
-
-//handles a request for the rules page (sends the user to the rules page)
-app.get('/about', function(request, response){
-    dataJS.increment("about");
-  user_data = {};
+//shows instructions page
+app.get('/instructions', function(request, response){
+  console.log("GET request: /instructions");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('about', {page:request.url, user:user_data, title:"about"});
+  response.render('instructions', {});
+});
+
+//shows results page for user with id, which shows api key and email
+app.get('/users/:id', function(request, response){
+  console.log("GET request: /users/:id; email: "+request.params.email); //variable name subject to change
+
+  var u; //need a way to get user from email
+  u["email"]=request.params.email; //TEMPorary fix
+
+  response.status(200);
+  response.setHeader('Content-Type', 'text/html')
+  response.render('results', {user:u});
+});
+
+//creates new user with id and shows results page
+app.post('/users', function(request, response){
+  console.log("POST request: /users; email: "+request.params.email); //variable name subject to change
+
+  var u; //temp fix
+  u["email"]=request.params.email;
+  u["apikey"]=request.params.apikey;
+  //insert code here to createUser and add user to sheets
+
+  response.status(200);
+  response.setHeader('Content-Type', 'text/html')
+  response.render('results', {user:u});
 });
