@@ -1,42 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>P,R,S - Rules</title>
-  <link rel="stylesheet" href="../styles/style.css">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/styles/style.css">
  </head>
 
 <body>
   <% include global/header %>
 
-   <div id="rules" class="visible">
-      <h2>Rules</h2>
-      <div class= "content">
-        The game of P, R, S is based on trust, skill and determination.
-        Each player must:
-        <ul>
-          <li>make a fist with one hand and hold the other open, palm upward</li>
-          <li> at the same time, they tap their fists in their open palms once, twice, and on the third time form one of three items</li>
-          <ul>
-            <li> a rock (by keeping the hand in a fist)</li>
-            <li> a sheet of paper (by holding the hand flat, palm down)</li>
-            <li> or a pair of scissors (by extending the first two fingers and holding them apart) </li>
-          </ul>
-        </ul>
-        If the same item is thrown, it's a tie.
-        Other wise,
-        <ul>
-          <li> Rock beats Scissors </li>
-          <li> Scissors beats Paper </li>
-          <li> Paper beats Rock </li>
-        </ul>
-        For more information, go to the <a href = "http://worldrps.com/"> World RPS Society</a>
-      </div>
-      <br>
-      <form action="/playAgain" method="get">
-        <button type="submit" id = "play_again">Play</button>
-      </form>
-    </div>
+  <h2>Sign Up</h2>
+
+<!--  <h4 id = "badFeedback"><%=data.message%></h4>-->
+
+  <!--  This only gives a post route for creating a new user. There is no check on whether or not the user already exists and if they do what they route should be -->
+
+  <div id="enter_email">
+    <h2>Welcome to our application! Hopefully, you will find it useful!</h2><br>
+    <h3>Please enter your email below. If you are a new user, the application will automatically create a new account for you!</h3>
+    <form action="/users" method="post">
+      Please enter your email: &nbsp<input type="text" id="enter_name_input" name="player_email">
+      <button type="submit" id = "enter_email_button">Sign In</button>
+    </form>
+  </div>
+  <footer>
     <% include global/footer %>
-  <script src="scripts/scripts.js"></script>
+  </footer>
+<!--  <script src="scripts/scripts.js"></script> -->
  </body>
 </html>
