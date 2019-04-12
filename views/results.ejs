@@ -20,7 +20,10 @@
       <%if(user.message =="Email already exists"){%>
         <div id = "email_error">
         <h3> The entered email is already in use </h3>
-        <a href ="/sign_up">Enter a different email</a>
+        <form action="/sign_up" method="get">
+          <button type="submit" id = "results_button">Enter a different email</button>
+        </form>
+        <br>
       </div>
       <%}%>
 
@@ -37,7 +40,6 @@
           API Key: <%=user.key%>
           <br>
         </h4>
-        <a href ="/instructions">View instructions for the application</a>
       </div>
       <%}%>
 
