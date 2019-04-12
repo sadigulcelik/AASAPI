@@ -1,19 +1,32 @@
 var GoogleSpreadsheet = require('google-spreadsheet');
 var creds = require('../client_secret.json');
-var dataJS = require(__dirname +'/data');
+//var dataJS = require(__dirname +'/data');
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
-var doc = new GoogleSpreadsheet('1DVgMG20OgfLR0leaJvzOiHDxp19EoyGKHTJxUCnxoX0');
+var doc = new GoogleSpreadsheet('17MplezRz9nYIw_jejd42ubSzDVCWdvVEGVGuhL0YQXE');
 // Authenticate with the Google Spreadsheets API.
 
-exports.loadGoogle = function(filename, callback) {
-  var user_data = [];
+exports.loadGoogle = function(callback) {
+  out="";
   doc.useServiceAccountAuth(creds, function (err) {
-    doc.getRows(filename, function (err, rows) {
-      callback(rows);
-    });
+     doc.getInfo(function(err,info){
+        sheet=info.worksheets[1];
+            
+        sheet.getCells({
+        'min-row':1,
+        'min-col': 1,
+        'max-col': 2,
+        'max-row':2,
+        'return-empty': true}, function(err, cells) {
+            for(var i=0; i<2;i++){
+            out+=cells[i].value;
+            }
+            callback(out);  
+      });
+            
+      });
   });
 }
-
+/*
 //Updates a row
 exports.updateRow=function(filename, userName, newStuff, callback){
   var sheet;
@@ -150,3 +163,4 @@ exports.loadUsage=function(callback){
   });
    
 }
+*/
