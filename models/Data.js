@@ -6,19 +6,21 @@ var doc = new GoogleSpreadsheet('17MplezRz9nYIw_jejd42ubSzDVCWdvVEGVGuhL0YQXE');
 // Authenticate with the Google Spreadsheets API.
 
 exports.loadGoogle = function(callback) {
-  out="";
+  out=[[]];
   doc.useServiceAccountAuth(creds, function (err) {
      doc.getInfo(function(err,info){
-        sheet=info.worksheets[1];
+        sheet=info.worksheets[0];
             
         sheet.getCells({
         'min-row':1,
         'min-col': 1,
-        'max-col': 2,
-        'max-row':2,
+        'max-col': 6,
         'return-empty': true}, function(err, cells) {
-            for(var i=0; i<2;i++){
-            out+=cells[i].value;
+            for(var i=0; i<cells.length;i+=6){
+                out[0]=[]
+            for(var k=0; k<6;k+=1){
+            out.push(cells[i+k].value);
+            }
             }
             callback(out);  
       });
