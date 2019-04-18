@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/styles/style.css">
+ </head>
+
+<body>
+  <% include global/header %>
+
+  <h2>Sign Up</h2>
+
+<!--  <h4 id = "badFeedback"><%=data.message%></h4>-->
+
+  <!--  This only gives a post route for creating a new user. There is no check on whether or not the user already exists and if they do what they route should be -->
+
+  <div id="enter_email">
+    <h2>Welcome to our application! Hopefully, you will find it useful!</h2><br>
+    <h3>Please enter your email below. If you are a new user, the application will automatically create a new account for you!</h3>
+    <form action="/users" method="post">
+      Please enter your email: &nbsp;<input type="text" id="enter_name_input" name="player_email">
+      <button type="submit" id = "enter_email_button">Sign In</button>
+    </form>
+    <br>
+
+  </div>
+  <footer>
+    <% include global/footer %>
+  </footer>
+<!--  <script src="scripts/scripts.js"></script> -->
+ </body>
+</html>
