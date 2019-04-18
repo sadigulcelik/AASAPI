@@ -1,152 +1,117 @@
-var GoogleSpreadsheet = require('google-spreadsheet');
-var creds = require('../client_secret.json');
-var dataJS = require(__dirname +'/data');
-// Create a document object using the ID of the spreadsheet - obtained from its URL.
-var doc = new GoogleSpreadsheet('1DVgMG20OgfLR0leaJvzOiHDxp19EoyGKHTJxUCnxoX0');
-// Authenticate with the Google Spreadsheets API.
+var fs = require("fs");
+var Data = require(__dirname+'/data');
 
-exports.loadGoogle = function(filename, callback) {
-  var user_data = [];
-  doc.useServiceAccountAuth(creds, function (err) {
-    doc.getRows(filename, function (err, rows) {
-      callback(rows);
-    });
+
+exports.getUser = function(user_id, callback) {
+  var user = createBlankUser();
+  var all_users = Data.loadGoogle(1, function(all_users) {
+    for(var i=0; i<all_users.length; i++){
+      if(all_users[i].name==user_id.trim()){
+        user = all_users[i];
+        break;
+      }
+    }
+    console.log("Users.getUser, got user "+user_id);
+    callback(user);
   });
 }
 
-//Updates a row
-exports.updateRow=function(filename, userName, newStuff, callback){
-  var sheet;
-  doc.useServiceAccountAuth(creds, function (err) {
-    doc.getInfo(function(err,info){
-      sheet=info.worksheets[filename];
-      sheet.getCells({
-        'min-col': 1,
-        'max-col': 1,
-        'return-empty': true}, function(err, cells) {
-        for(var i=0; i<cells.length;i++){
-          if(cells[i].value==userName){
-            sheet.getCells({'min-row': i+1,'max-row': i+1},
-            function(err, cells) {
-              for(var i=0; i<cells.length;i++){
-                cells[i].setValue(newStuff[i]);
-              }
-            });
-            break;
-          }
-        }
-        console.log("doing callback");
-        callback();
-      });
-    });
+exports.updateUser = function(user_id, updatedData, callback) { //takes in username, an array of userdata in standard order, callback function and updates user with username if found with userdata
+  console.log("Updating user: "+user_id);
+  exports.getUser(user_id, function(user) {
+    if(user_id!=updatedData[0]||user.password!=updatedData[1]||user.firstname!=updatedData[10]||user.lastname!=updatedData[11]) {
+      updatedData[13]=getDate();
+    }
   });
+  console.log(updatedData);
+  Data.updateRow(0, user_id, updatedData, callback);
 }
 
-// creates a new row (when making a new user)
-exports.createRow = function(obj, callback) {
-  var sheet;
-  doc.useServiceAccountAuth(creds, function (err) {
-    doc.addRow(1, obj, function(){
-      dataJS.log("Calling first callback")
-      callback();
-    });
-  });
+exports.createUser = function(user_id, user_password, first_name, last_name,callback) {
+    var result = true;
+    if (user_id==null||user_id==""||user_password==null||user_password==""||first_name==null||first_name==""||last_name==null||last_name==""){
+        console.log("Users.createUser, null input.");
+        result= false;
+    }
+    if (result){
+        date=getDate();
+        console.log("Users.createUser, User created!");
+        var new_user_data = {
+          "name": user_id,
+          "password": user_password,
+          "games_played": 0,
+          "games_won": 0,
+          "games_tied": 0,
+          "games_lost": 0,
+          "rock": 0,
+          "paper": 0,
+          "scissors": 0,
+          "win_rate": 0,
+          "first_name": first_name,
+          "last_name": last_name,
+          "date_of_creation": date,
+          "date_of_latest_update": date
+      }
+      Data.createRow(new_user_data, function(){
+          callback(true);});
+  }
+  else{
+     callback(false);
+  }
 }
 
-// deletes a row (when deleting a user)
-exports.deleteRow = function(user_id, callback) {
-  var sheet;
-  doc.useServiceAccountAuth(creds, function (err) {
-    doc.getInfo(function(err,info){
-      sheet=info.worksheets[0];
-      sheet.getCells({
-        'min-col': 1,
-        'max-col': 1,
-        'return-empty': true}, function(err, cells) {
-        for(var i=0; i<cells.length;i++){
-          if(cells[i].value==user_id){
-            var index = i;
-             sheet.getRows(function (err, rows) {
-               rows[i-1].del(function(err){
-                 callback();
-               });
-            });
-            break;
-          }
-        }
-      });
-    });
-  });
+exports.deleteUser = function(user_id, callback) {
+  console.log("Deleting user: "+user_id);
+  Data.deleteRow(user_id, callback)
 }
 
-exports.log=function(message){
-    console.log(message);
-    doc.useServiceAccountAuth(creds, function (err) {
-        doc.getInfo(function(err,info){
-    sheet=info.worksheets[2];
-      sheet.getCells({
-        'min-col': 1,
-        'max-col': 1,
-        'return-empty': true}, function(err, cells) {
-          go=true;
-          i=0;
-        while (go){
-            var a="";
-            try{a=cells[i].value}catch(ErrorEvent){}
-            if(a==""){
-          cells[i].setValue(JSON.stringify(message));
-                go=false;
-            }else{
-            i++;
-            }
-        }
-      });
-      });
-  });
+var createBlankUser = function(){
+  date=getDate();
+  var new_user = {
+    "name": "blankuser",
+    "password": "blankuser",
+    "games_played": 0,
+    "games_won": 0,
+    "games_tied": 0,
+    "games_lost": 0,
+    "rock": 0,
+    "paper": 0,
+    "scissors": 0,
+    "win_rate": 0,
+    "first_name": "blankuser",
+    "last_name": "blankuser",
+    "date_of_creation": 0,
+    "date_of_latest_update": 0
+  }
+  return new_user;
 }
 
-exports.increment=function(page){
-    arr=["index","game","results","rules","stats","about","userDetails"];
-    num=arr.indexOf(page)+4;
-    doc.useServiceAccountAuth(creds, function (err) {
-        doc.getInfo(function(err,info){
-        sheet=info.worksheets[2];
-      sheet.getCells({
-        'min-col': num,
-        'max-col': num,
-        'return-empty': true}, function(err, cells) {
-            var a=0;
-            try{a=parseInt(cells[1].value)}catch(ErrorEvent){}
-            if(a==0){
-          cells[1].setValue(1);
-            }else{
-            cells[1].setValue(a+1);
-            }
-      });
-      });
-  });
+function writeCSVfromSplitCells(csv, csv_data){
+  console.log("Users.writeCSVfromSplitCells, input:"+csv_data)
+  // console.log(csv_data)
+  var players_data_string = "name,password,games played,games won,games tied,games lost,rock,paper,scissors,winrate\n";
+  for(i=0; i<csv_data.length;i++){
+    players_data_string+=csv_data[i].join(",");
+    if (i!=csv_data.length-1){
+        players_data_string[i]+="\n";
+    }
+  }
+  fs.writeFile(csv,players_data_string,'utf8',function(){});
+}
+function writeCSVfromNoSplit(csv, csv_data){
+  console.log("Users.writeCSVfromNoSplit, input:"+csv_data)
+  fs.writeFile(csv,csv_data,'utf8',function(){});
 }
 
-exports.loadUsage=function(callback){
-    arr=[0,0,0,0,0,0,0];
-    doc.useServiceAccountAuth(creds, function (err) {
-        doc.getInfo(function(err,info){
-        sheet=info.worksheets[2];
-            
-        sheet.getCells({
-        'min-row':2,
-        'min-col': 4,
-        'max-col': 10,
-        'max-row':2,
-        'return-empty': true}, function(err, cells) {
-            for(var i=0; i<7;i++){
-            arr[i]=parseInt(cells[i].value);
-            }
-            callback(arr);  
-      });
-            
-      });
-         
-  });
-   
+exports.getDate=function(){
+    return getDate();
+}
+function getDate(){
+    var date=new Date();
+    var months=["January","February","March","April", "May", "June","July","August","September", "October", "November","December"];
+    var month=months[date.getMonth()];
+    return ((date.getMonth()+1)+"/"+date.getDate()+"/"+ date.getFullYear()+";  "+date.getHours()+":"+adjust(date.getMinutes())+":"+adjust(date.getSeconds()));
+}
+function adjust(n){
+   return ("0" + n).slice(-2);
 }

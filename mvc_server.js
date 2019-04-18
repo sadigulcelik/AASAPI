@@ -7,10 +7,10 @@ var express = require('express');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var app = express();
-var Users = require(__dirname +'/models/User');
-var Villains = require(__dirname +'/models/Villain');
-var dataJS = require(__dirname +'/models/data');
-var Routes = require(__dirname +'/controllers/user');
+var Developer = require(__dirname +'/models/Developer');
+// var Villains = require(__dirname +'/models/Villain');
+// var dataJS = require(__dirname +'/models/data');
+// var Routes = require(__dirname +'/controllers/user');
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
@@ -28,6 +28,7 @@ fs.writeFileSync("data/villainPrevious.txt",villainPrevious,'utf8')
 fs.writeFileSync("data/userPrevious.txt",userPrevious,'utf8')
 
 var error = false;
+var indexError;
 
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
@@ -73,11 +74,30 @@ app.get('/users/:id', function(request, response){
   console.log("GET request: /users/:id; email: "+request.params.email); //variable name subject to change
 
   var u; //need a way to get user from email
-  u["email"]=request.params.email; //TEMPorary fix
+  Developer.getUser(request.params.email, function(user){
 
-  response.status(200);
-  response.setHeader('Content-Type', 'text/html')
-  response.render('results', {user:u});
+    //NEED TO OPTIMIZE FOR OUR CODE
+
+    res.status(200);
+    res.setHeader('Content-Type', 'text/html')
+    if (user_data.name == ""||user_data.password=="") {//empty forms
+      console.log("Error: no input for forms");
+      indexError = 1;
+      res.render('instructions', {status:indexError});}
+    else if (user_data.name==user.name && user_data.password == user.password) {
+      console.log("Successful login.")
+      res.render('results', {user:user, gameSelectError: gameSelectError});}
+    else if(user_data.name==user.name&&user_data.password!=user.password){
+      console.log("Wrong password.")
+      indexError = 2;
+      res.render('instructions', {status:indexError});}
+    else {
+      username="";
+      password="";
+      indexError=3;
+      res.render('index', {user:user_data, status:indexError});
+    }
+  });
 });
 
 //creates new user with id and shows results page
