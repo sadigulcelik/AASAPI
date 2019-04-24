@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Results/title>
+  <title>Results</title>
   <link rel="stylesheet" href="/styles/style.css">
  </head>
 
@@ -17,7 +17,7 @@
 
       <!--<h4 id = "badFeedback"><%=user.message%></h4>-->
 
-      <%if(user.message =="Email already exists"){%>
+      <%if(user.message =="fail"){%>
         <div id = "email_error">
         <h3> The entered email is already in use </h3>
         <form action="/sign_up" method="get">
@@ -31,7 +31,7 @@
 
 
 
-      <%if(user.message == "New email"){%>
+      <%if(user.message == "success"){%>
         <div id = "email_new">
         <h3>Here is your information!</h3>
         <h4>
