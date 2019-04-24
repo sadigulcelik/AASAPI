@@ -6,11 +6,22 @@
 h1 {
   color: #f442d9;
   text-align: center;
-  text-decoration: underline;
 
 }
-h4{
+
+
+h2{
+  color: black;
+  text-align: center;
+  text-decoration: bold; 
+}
+
+h3 {
   color: #f442d9;
+  text-align: center;
+}
+h4{
+  color: black;
   text-align: center;
 }
 
