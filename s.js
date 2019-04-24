@@ -7,15 +7,12 @@ var express = require('express');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var app = express();
-<<<<<<< HEAD:mvc_server.js
 var Developer = require(__dirname +'/models/Developer');
 // var Villains = require(__dirname +'/models/Villain');
 // var dataJS = require(__dirname +'/models/data');
 // var Routes = require(__dirname +'/controllers/user');
-=======
 var dat = require(__dirname +'/models/Data');
 var dev = require(__dirname +'/models/Developer');
->>>>>>> 4cb597dbdd8672bf048e6204349c83c7c623d29f:s.js
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
