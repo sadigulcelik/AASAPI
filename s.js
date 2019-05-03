@@ -93,20 +93,22 @@ app.get('/users/:id', function(request, response){
 
 //creates new user with id and shows results page
 app.post('/users', function(request, response){
-dev.both(function(out){
-    console.log(out[0][0]);
-  })
-  console.log("POST request: /users; email: "+request.body.email); //variable name subject to change
-    var u = {
-          "email": request.body.email,
-          "apikey": "ApIIIIkey"
-    }
-  dev.addUser(u, function(){
-    console.log("user added");
-    response.status(200);
-    response.setHeader('Content-Type', 'text/html')
-    response.render('results', {user:u, message:"success"});
-  })
+    dev.addUser(request.body.email, function(theuser){
+        if(theuser.apikey=="failure"){
+            response.status(200);
+        response.setHeader('Content-Type', 'text/html')
+        response.render('results', {user:theuser, message:"failure"});
+        
+        }
+        else{
+        console.log("user added");
+        response.status(200);
+        response.setHeader('Content-Type', 'text/html')
+        response.render('results', {user:theuser, message:"success"});
+        }
+      })
     
   
 });
+
+
