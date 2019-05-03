@@ -38,34 +38,46 @@ isOpen = function (email, callback) {
         callback(isopen);
     });
 }
-//Updates a row
 exports.addUser = function (theEmail, callback) {
     isOpen(theEmail, function (open) {
         console.log(open);
-
+        var str = "";
         if (open) {
-            str = ""
-            for (var i = 0; i < 8; i++) {
-                num = Math.floor(Math.random() * 91 + 35);
-                if (num == 92) {
-                    num = 33;
+            var apikeyList = exports.apikeys(function (apikeyList) {
+                keepGoing = true;
+                while (keepGoing) {
+                    str = ""
+                    for (var i = 0; i < 8; i++) {
+                        num = Math.floor(Math.random() * 91 + 35);
+                        if (num == 92) {
+                            num = 33;
+                        }
+                        if (num == 61) {
+                            num = 126;
+                        }
+                        str += (String.fromCharCode(num));
+                    }
+                    if (apikeyList.indexOf(str) == -1) {
+                        keepGoing = false;
+                        
+                    }
                 }
-                if (num == 61) {
-                    num = 126;
+
+                obj = {
+                    "email": theEmail,
+                    "apikey": str
                 }
-                str += (String.fromCharCode(num));
-            }
 
-            obj = {
-                "email": theEmail,
-                "apikey": str
-            }
-
-            doc.useServiceAccountAuth(creds, function (err) {
-                doc.addRow(1, obj, function () {
-                    callback(obj);
+                doc.useServiceAccountAuth(creds, function (err) {
+                    doc.addRow(1, obj, function () {
+                        callback(obj);
+                    });
                 });
+
+
             });
+
+
         } else {
             obj = {
                 "email": "nope",
@@ -85,6 +97,27 @@ exports.emails = function (callback) {
                 'min-row': 2,
                 'min-col': 1,
                 'max-col': 1,
+                'return-empty': true
+            }, function (err, cells) {
+                for (var i = 0; i < cells.length; i += 1) {
+                    out.push(cells[i].value)
+                }
+                callback(out);
+            });
+
+        });
+    });
+}
+exports.apikeys = function (callback) {
+    out = [];
+    doc.useServiceAccountAuth(creds, function (err) {
+        doc.getInfo(function (err, info) {
+            sheet = info.worksheets[0];
+
+            sheet.getCells({
+                'min-row': 2,
+                'min-col': 2,
+                'max-col': 2,
                 'return-empty': true
             }, function (err, cells) {
                 for (var i = 0; i < cells.length; i += 1) {
