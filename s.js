@@ -32,24 +32,19 @@ app.listen(port, function(){
   //dataJS.log('Server started at '+ new Date()+', on port ' + port+'!');
 });
 
+//shows home page aka signup page
 app.get('/', function(request, response){
+  console.log("GET request: /");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('sign_up', {data:{message:"welcome"}});
 });
 
-//shows home page aka signup page
-app.get('/sign_up', function(request, response){
-  console.log("GET request: /sign_up");
-  response.status(200);
-  response.setHeader('Content-Type', 'text/html')
-  response.render('sign_up', {});
-});
 //logs the user out and shows home page/signup page
 app.get('/logout', function(request, response){
   console.log("GET request: /logout");
   //log the user  out code here
-  response.redirect('/sign_up');
+  response.redirect('/');
 });
 
 //shows instructions page
@@ -94,8 +89,10 @@ app.get('/users/:id', function(request, response){
 //creates new user with id and shows results page
 app.post('/users', function(request, response){
     dev.addUser(request.body.email, function(theuser){
+        console.log(theuser.email);
+        console.log(theuser.apikey);
         if(theuser.apikey=="failure"){
-            response.status(200);
+        response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('results', {user:theuser, message:"failure"});
 
