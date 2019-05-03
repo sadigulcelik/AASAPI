@@ -41,7 +41,7 @@ app.get('/', function(request, response){
 });
 
 //logs the user out and shows home page/signup page
-app.get('/logout', function(request, response){
+app.get('/sign_up', function(request, response){
   console.log("GET request: /logout");
   //log the user  out code here
   response.redirect('/');
