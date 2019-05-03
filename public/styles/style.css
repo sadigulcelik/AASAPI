@@ -2,47 +2,9 @@
 @import url('https://fonts.googleapis.com/css?family=Cinzel:900');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:600');
 
-
-h1 {
-  color: #f442d9;
-  text-align: center;
-
-}
-
-
-h2{
-  color: black;
-  text-align: center;
-  text-decoration: bold;
-}
-
-h3 {
-  color: #f442d9;
-  text-align: center;
-}
-h4{
-  color: black;
-  text-align: center;
-}
-
-h5{
-  color: black;
-  text-align: center;
-}
-
-
-footer{
-  font-family: arial, sans-serif;
-}
-
-header{
-  font-family: arial, sans-serif;
-}
-
-
-
 div {
-  font-family: arial, sans-serif;
+  font-family: helvetica;
+  font-weight: 100;
   margin-top: 50px;
   margin-bottom: 50px;
   margin-right: 50px;
@@ -50,58 +12,50 @@ div {
   background-color: #ffff99;
   text-align: center;
   list-style-position: inside;
-
 }
 
-#photoResults{
-  background-color: white;
-}
-
-.hidden{
-  display: none;
-}
-
-.visible{
-  display:block;
-}
-
-#nameFeedbackGood{
-  background-color: #ffffff;
-  color: #ff99cc;
-}
-
-#nameFeedbackBad, #choiceFeedbackBad{
-  background-color: #ffffff;
-  color: #ff0000;
-}
-#game_results{
-  background-color: #ffffff;
-}
-
-#Computer_Picture_Results{
-  margin-top: 10px;
-  margin-left:150;
-  margin-right: 140px;
-}
-
-#Player_Picture_Results{
-  margin-top: 10px;
-  margin-left: 150px;
-  margin-right: 0px;
-
-}
-#resultsText{
+h1 {
+  font-family: helvetica;
+  font-weight: 100;
+  color: #f442d9;
   text-align: center;
 }
 
-#statsTable{
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
 
-  td, th {
-    border: 1px solid #ffffff;
-    text-align: center;
-    padding: 12px;
-  }
+h2{
+  font-family: helvetica;
+  font-weight: 100;
+  color: black;
+  text-align: center;
+}
+
+h3 {
+  font-family: helvetica;
+  font-weight: 100;
+  color: #f442d9;
+  text-align: center;
+}
+h4{
+  font-family: helvetica;
+  font-weight: 100;
+  color: black;
+  text-align: center;
+}
+
+h5{
+  font-family: helvetica;
+  font-weight: 100;
+  color: black;
+  text-align: center;
+}
+
+
+footer{
+  font-family: helvetica;
+  font-weight: 100;
+}
+
+header{
+  font-family: helvetica;
+  font-weight: 100;
+}
