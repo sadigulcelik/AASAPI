@@ -98,7 +98,7 @@ app.post('/users', function(request, response){
             response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('results', {user:theuser, message:"failure"});
-        
+
         }
         else{
         console.log("user added");
@@ -107,8 +107,6 @@ app.post('/users', function(request, response){
         response.render('results', {user:theuser, message:"success"});
         }
       })
-    
-  
+
+
 });
-
-
