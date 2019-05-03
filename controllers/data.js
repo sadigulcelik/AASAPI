@@ -5,34 +5,30 @@ var dataJS = require('../models/Data');
 var Developer = require('../models')
 //var jobJS = require('../models/jobprogram');
 
-router.get('/benefitsearch', function(request, response) {
+router.get('/neighborhoodsearch', function(request, response) {
   var key = request.query.apikey,
   var data={
     name: request.query.name,
-    type: request.query.type,
-    pop: request.query.pop,
-    contact: request.query.contact,
-    desc: request.query.desc,
+    neighborhood: request.query.neighborhood,
+    //diagnosis: request.query.diagnosiscount,
   };
 
-  jobJS.paramSelec(1,data,key,function(json) {
-    response.json(json);
-  })
+  //need a function in one of models called
+  Developer.getDiagnosis();
+  //that takes neighborhood and returns # of diagnoses in it
 
 })
 
-router.get('/jobsearch', function(request, response) {
+router.get('/condomsearch', function(request, response) {
   var key = request.query.apikey;
   var data={
-    agency: request.query.agency,
-    title: request.query.title,
-    category: request.query.category,
-    service: request.query.service,
+    neighborhood: request.query.neighborhood,
     location: request.query.location,
   };
 
-  jobJS.paramSelec(1,data,key,function(json) {
-    response.json(json);
-  });
+  //need function in models called
+  Developer.getCondoms();
+  //which get input a neighborhood and outputs the or a few of the closest
+  //condom distribution centers
 
 })
