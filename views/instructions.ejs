@@ -15,22 +15,11 @@
     <h3> In order to use this application, each user must have an account listed under their email.</h3>
   </div>
   <!-- if there is no user signed in (no email exists), then they can only return to sign in page to create an account -->
-    <%if(!user.email){%>
       <div>
       <br>
       <a href ="/sign_up">Return to Sign Up Page</a>
       <br>
     </div>
-    <%}%>
-
-    <!-- if there is a user signed in (if they have an email), then they can view their results -->
-    <%else{%>
-      <div>
-      <form action="/users/:id" method="get">
-        <button type="submit" id = "results_button">View My Results</button>
-      </form>
-    </div>
-    <%}%>
 
 
   <% include global/footer %>
