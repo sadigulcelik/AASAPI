@@ -6,7 +6,7 @@ var Developer = require('../models')
 //var jobJS = require('../models/jobprogram');
 
 router.get('/neighborhoodsearch', function(request, response) {
-  var key = request.query.apikey,
+  var key = request.query.apikey;
   var data={
     name: request.query.name,
     neighborhood: request.query.neighborhood,
