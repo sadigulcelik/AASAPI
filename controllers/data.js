@@ -6,15 +6,16 @@ var Developer = require('../models')
 //var jobJS = require('../models/jobprogram');
 
 router.get('/neighborhoodsearch', function(request, response) {
-  var key = request.query.apikey,
+  var key = request.query.apikey;
   var data={
     name: request.query.name,
     neighborhood: request.query.neighborhood,
+    zipcode: request.query.zipcode,
     //diagnosis: request.query.diagnosiscount,
   };
 
   //need a function in one of models called
-  Developer.getDiagnosis();
+  dataJS.getDiagnosis();
   //that takes neighborhood and returns # of diagnoses in it
 
 })
@@ -23,11 +24,11 @@ router.get('/condomsearch', function(request, response) {
   var key = request.query.apikey;
   var data={
     neighborhood: request.query.neighborhood,
-    location: request.query.location,
+    zipcode: request.query.zipcode,
   };
 
   //need function in models called
-  Developer.getCondoms();
+  dataJS.getCondoms();
   //which get input a neighborhood and outputs the or a few of the closest
   //condom distribution centers
 
