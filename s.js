@@ -46,9 +46,18 @@ app.get('/', function (request, response) {
 
 app.get('/data', function (request, response) {
     console.log("GET request: /data");
-    dat.cases(function (data) {
-        response.send(JSON.stringify(data))
+    console.log(request.query.apikey);
+    dev.validateAPIkey(request.query.apikey, function (isvalid) {
+        if (isvalid) {
+            dat.cases(function (data) {
+                response.send(JSON.stringify(data))
+            });
+        } else {
+            response.redirect('/')
+        }
     });
+
+
 });
 
 //logs the user out and shows home page/signup page

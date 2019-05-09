@@ -38,6 +38,18 @@ isOpen = function (email, callback) {
         callback(isopen);
     });
 }
+exports.validateAPIkey = function (apikey, callback) {
+    var apikeyList = exports.apikeys(function (apikeyList) {
+        for (var i = 0; i < apikeyList.length; i++) {
+            key = apikeyList[i];
+            if (key == apikey) {
+                callback(true);
+                break;
+            }
+        }
+        callback(false);
+    });
+}
 exports.addUser = function (theEmail, callback) {
     isOpen(theEmail, function (open) {
         console.log(open);
@@ -48,18 +60,17 @@ exports.addUser = function (theEmail, callback) {
                 while (keepGoing) {
                     str = ""
                     for (var i = 0; i < 8; i++) {
-                        num = Math.floor(Math.random() * 91 + 35);
-                        if (num == 92) {
-                            num = 33;
-                        }
-                        if (num == 61) {
-                            num = 126;
+                        var num
+                        if (Math.random() > 0.5) {
+                            num = Math.floor(Math.random() * 26 + 65);
+                        } else {
+                            num = Math.floor(Math.random() * 26 + 97);
                         }
                         str += (String.fromCharCode(num));
                     }
                     if (apikeyList.indexOf(str) == -1) {
                         keepGoing = false;
-                        
+
                     }
                 }
 
