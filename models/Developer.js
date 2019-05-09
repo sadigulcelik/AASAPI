@@ -38,16 +38,38 @@ isOpen = function (email, callback) {
         callback(isopen);
     });
 }
-exports.validateAPIkey = function (apikey, callback) {
+exports.filter = function (type, zipcode, year, neighborhood, sex, race, callback) {
     var apikeyList = exports.apikeys(function (apikeyList) {
+        var verity = false;
         for (var i = 0; i < apikeyList.length; i++) {
             key = apikeyList[i];
-            if (key == apikey) {
-                callback(true);
+            console.log(key + " | " + apikey)
+            console.log("test");
+            if (key === apikey) {
+                console.log("true");
+                verity = true;
                 break;
             }
         }
-        callback(false);
+        callback(verity);
+
+    });
+}
+exports.validateAPIkey = function (apikey, callback) {
+    var apikeyList = exports.apikeys(function (apikeyList) {
+        var verity = false;
+        for (var i = 0; i < apikeyList.length; i++) {
+            key = apikeyList[i];
+            console.log(key + " | " + apikey)
+            console.log("test");
+            if (key === apikey) {
+                console.log("true");
+                verity = true;
+                break;
+            }
+        }
+        callback(verity);
+
     });
 }
 exports.addUser = function (theEmail, callback) {
