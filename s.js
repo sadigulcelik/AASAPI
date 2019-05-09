@@ -52,12 +52,12 @@ app.get('/data', function (request, response) {
     console.log(request.query.race);
     dev.validateAPIkey(request.query.apikey, function (isvalid) {
         if (isvalid) {
-            /*dat.filter(request.query.type,request.query.zipcode,request.query.year, request.query.neighborhood, request.query.sex, request.query.race, function (data) {
-                response.send(JSON.stringify(data))
-            });*/
-            dat.cases(function (data) {
+            dat.filter(request.query.type, request.query.zipcode, request.query.year, request.query.neighborhood, request.query.sex, request.query.race, function (data) {
                 response.send(JSON.stringify(data))
             });
+            /*dat.cases(function (data) {
+                response.send(JSON.stringify(data))
+            });*/
 
 
 
