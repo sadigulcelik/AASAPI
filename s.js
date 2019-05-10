@@ -11,6 +11,10 @@ var Developer = require(__dirname + '/models/Developer');
 var dat = require(__dirname + '/models/Data');
 var dev = require(__dirname + '/models/Developer');
 var methodOverride = require('method-override');
+var Promise = require('promise');
+var {
+    promisify
+} = require('util')
 app.use(methodOverride('_method'));
 
 //set up server
@@ -40,7 +44,14 @@ app.get('/', function (request, response) {
         }
     });
 });
+app.get('/d', function (request, response) {
 
+    a = dat.out2().then(function (a) {
+        console.log("done")
+        response.send(JSON.stringify(a))
+    });
+
+});
 app.get('/data', function (request, response) {
     console.log("GET request: /data");
     console.log(request.query.apikey);
@@ -52,12 +63,26 @@ app.get('/data', function (request, response) {
     console.log(request.query.race);
     dev.validateAPIkey(request.query.apikey, function (isvalid) {
         if (isvalid) {
-            dat.filter(request.query.Type, request.query.zipcode, request.query.year, request.query.neighborhood, request.query.sex, request.query.race, function (data) {
-                response.send(JSON.stringify(data))
-            });
-            /*dat.cases(function (data) {
+            /*dat.filter(request.query.Type, request.query.zipcode, request.query.year, request.query.neighborhood, request.query.sex, request.query.race, function (data) {
                 response.send(JSON.stringify(data))
             });*/
+            if (request.query.type ==
+                "distribution") {
+                a = dat.dist(request.query.zipcode).then(function (a) {
+                    console.log("done")
+                    response.send(JSON.stringify(a))
+                })
+
+            } else if (request.query.type == "cases")
+                a = dat.cas(request.query.year, request.query.neighborhood, request.query.sex, request.query.race).then(function (a) {
+                    console.log("done")
+                    response.send(JSON.stringify(a))
+                });
+            /*
+                        a = dat.out().then(function (a) {
+                            console.log("done")
+                            response.send(JSON.stringify(a))
+                        });*/
 
 
 

@@ -1,31 +1,37 @@
 {
-  "name": "aasapi",
-  "version": "1.0.0",
-  "description": "Andrew Anna Sadi API",
-  "main": "s.js",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
-    "fs": "^0.0.1-security",
-    "google-spreadsheet": "^2.0.7",
-    "method-override": "^3.0.0",
-    "promise": "^8.0.3",
-    "serve-favicon": "^2.5.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sadigulcelik/AASAPI.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sadigulcelik/AASAPI/issues"
-  },
-  "homepage": "https://github.com/sadigulcelik/AASAPI#readme"
+    "name": "aasapi",
+    "version": "1.0.0",
+    "description": "Andrew Anna Sadi API",
+    "main": "s.js",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "ejs": "^2.6.1",
+        "es6-promisify": "^6.0.1",
+        "express": "^4.16.4",
+        "express-yields": "^1.1.2",
+        "fs": "^0.0.1-security",
+        "google-spreadsheet": "^2.0.7",
+        "google-spreadsheet-promise": "^0.3.0",
+        "install": "^0.12.2",
+        "method-override": "^3.0.0",
+        "npm": "^6.9.0",
+        "promise": "^8.0.3",
+        "serve-favicon": "^2.5.0",
+        "util": "^0.12.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node s.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sadigulcelik/AASAPI.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/sadigulcelik/AASAPI/issues"
+    },
+    "homepage": "https://github.com/sadigulcelik/AASAPI#readme"
 }
