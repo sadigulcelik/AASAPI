@@ -24,7 +24,7 @@ app.use(express.urlencoded());
 var error = false;
 var indexError;
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3042;
 app.listen(port, function () {
     //dataJS.log('Server started at '+ new Date()+', on port ' + port+'!');
 });
@@ -44,7 +44,7 @@ app.get('/', function (request, response) {
 app.get('/data', function (request, response) {
     console.log("GET request: /data");
     console.log(request.query.apikey);
-    console.log(request.query.type) // Type can be "both", "cases" or "distribution". If the type is "cases", all but the zipcode parameter will be considered, and for "distribution", only zipcode will be considered. If the type is "both", then both sets of parameters will be considered. In the absence of any of the parameter, all the data will be sent.
+    console.log(request.query.Type) // Type can be "both", "cases" or "distribution". If the type is "cases", all but the zipcode parameter will be considered, and for "distribution", only zipcode will be considered. If the type is "both", then both sets of parameters will be considered. In the absence of any of the parameter, all the data will be sent.
     console.log(request.query.year);
     console.log(request.query.zipcode);
     console.log(request.query.neighborhood);
@@ -52,7 +52,7 @@ app.get('/data', function (request, response) {
     console.log(request.query.race);
     dev.validateAPIkey(request.query.apikey, function (isvalid) {
         if (isvalid) {
-            dat.filter(request.query.type, request.query.zipcode, request.query.year, request.query.neighborhood, request.query.sex, request.query.race, function (data) {
+            dat.filter(request.query.Type, request.query.zipcode, request.query.year, request.query.neighborhood, request.query.sex, request.query.race, function (data) {
                 response.send(JSON.stringify(data))
             });
             /*dat.cases(function (data) {
