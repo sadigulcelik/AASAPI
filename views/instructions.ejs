@@ -18,7 +18,7 @@
         
         </small></h4>
             <br>
-            <p> The basic form of the request is "https://radiant-fjord-19703.herokuapp.com/data?type=[type]&apikey=[key]". All these parameterss are necessary. Type can be "cases" or "distribution". If the type is "cases", one can take advantage of the optional paramters, year, sex, neighborhood, race. If the type is "distribution", the only optional parameter is the zipcode. The server will always return all of the data that fits the parameters that have been given.
+            <p> The basic form of the request is "https://radiant-fjord-19703.herokuapp.com/data?type=[type]&apikey=[key]". All these parameterss are necessary. Type can be "cases" or "distribution". If the type is "cases", one can take advantage of the optional paramters, year, sex, neighborhood, race. If the type is "distribution", the only optional parameter is the zipcode. The server will always return all of the data that fits the parameters that have been given. Note that each parameter can also take multiple values, when delimited by a '~'. (for example http://radiant-fjord-19703.herokuapp.com/data?type=distribution&zipcode=10128~10001&apikey=[key]).
             </p>
             <p>
                 For data on HIV cases, the format of the JSON is: [[year,neighborhood,sex,race,per100k,diagnosiscount],[year,neighborhood,sex,race,per100k,diagnosiscount]], with as many rows as entries that meet the request parameters. Similarly, for the distribution centers, the format of the JSON [[zipcode,distributionaddress], [zipcode, distributionaddress]], with, again, a many rows as entries that meet the request parameters.
