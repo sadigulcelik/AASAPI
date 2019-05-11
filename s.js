@@ -55,7 +55,7 @@ app.get('/d', function (request, response) {
 app.get('/data', function (request, response) {
     console.log("GET request: /data");
     console.log(request.query.apikey);
-    console.log(request.query.Type) // Type can be "both", "cases" or "distribution". If the type is "cases", all but the zipcode parameter will be considered, and for "distribution", only zipcode will be considered. If the type is "both", then both sets of parameters will be considered. In the absence of any of the parameter, all the data will be sent.
+    console.log(request.query.Type) // Type can be "cases" or "distribution". If the type is "cases", all but the zipcode parameter will be considered, and for "distribution", only zipcode will be considered. 
     console.log(request.query.year);
     console.log(request.query.zipcode);
     console.log(request.query.neighborhood);

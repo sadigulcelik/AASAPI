@@ -99,7 +99,7 @@ exports.distribution = function (callback) {
 
 //returns 2d array of zipcodes and addresses, in that order
 //so for example, arrray[ROW 0-][COLUMN 0-1]
-exports.pcases = function (row) {
+/*exports.pcases = function (row) {
     return new Promise(function (resolve, reject) {
         request(rstring, function (error, response, body) {
             if (error) return reject(error);
@@ -112,7 +112,7 @@ exports.pcases = function (row) {
     });
 }
 
-/*exports.fastDistribution = function () {
+exports.fastDistribution = function () {
     return new Promise(function (resolve, reject) {
         var sheet = accessSpreadsheet();
         p1 = promisify(sheet.getCells)({
