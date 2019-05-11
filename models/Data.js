@@ -6,6 +6,7 @@ var {
 } = require('util')
 var Promise = require('promise');
 
+//determines type and accordingly returns appropriate filtered 2-d array
 exports.filter = function (type, zipcode, year, neighborhood, sex, race, callback) {
     year = parseInt(year);
     zipcode = parseInt(zipcode);
@@ -44,7 +45,7 @@ exports.filter = function (type, zipcode, year, neighborhood, sex, race, callbac
     }
 }
 
-
+//returns 2d array of [year,neighborhood,sex,race,per100k,diagnosiscount]
 exports.cases = function (callback) {
     out = [[]];
     doc.useServiceAccountAuth(creds, function (err) {
@@ -97,54 +98,8 @@ exports.distribution = function (callback) {
     });
 }
 
-//returns 2d array of zipcodes and addresses, in that order
-//so for example, arrray[ROW 0-][COLUMN 0-1]
-exports.pcases = function (row) {
-    return new Promise(function (resolve, reject) {
-        request(rstring, function (error, response, body) {
-            if (error) return reject(error);
-            try {
-                resolve([cells[0].value, cells[1].value]);
-            } catch (e) {
-                reject(e);
-            }
-        });
-    });
-}
 
-/*exports.fastDistribution = function () {
-    return new Promise(function (resolve, reject) {
-        var sheet = accessSpreadsheet();
-        p1 = promisify(sheet.getCells)({
-            'min-row': 2,
-            'max-row': 2,
-            'min-col': 1,
-            'max-col': 2,
-            'return-empty': true
-        });
-        p2 = promisify(sheet.getCells)({
-            'min-row': 3,
-            'max-row': 3,
-            'min-col': 1,
-            'max-col': 2,
-            'return-empty': true
-        })
-
-        Promise.all([p1, p2]).then(function (data) {
-            console.log(data[0][0].value);
-            resolve(data[0][0].value);
-        });
-    });
-}
-
-async function accessSpreadsheet() {
-    await promisify(doc.useServiceAccountAuth)(creds)
-    var info = await promisify(doc.getInfo)()
-    console.log(`Loaded doc: ` + info.title + ` by ` + info.author.email)
-    var sheet = info.worksheets[0];
-    return sheet;
-
-}*/
+//To maximize speed it is necessary to make multiple calls to the google spreadsheet at once (so as to divy up a large data request), though not so many as to overwhelm the server sending the request
 exports.dist = async function accessSpreadsheet(zipcode) {
     await promisify(doc.useServiceAccountAuth)(creds)
     var info = await promisify(doc.getInfo)()
@@ -168,6 +123,7 @@ exports.dist = async function accessSpreadsheet(zipcode) {
                     out.push([data[i][2 * k].value, data[i][2 * k + 1].value]);
                 }
             }
+            // the splitting (as delimited by '~') facilitates getting requests with multiple zipcodes at once
             if (zipcode != null) {
                 out = out.filter(function (element) {
                     return arr = zipcode.split('~').map(x => parseInt(x)).includes(parseInt(element[0]));
@@ -178,6 +134,8 @@ exports.dist = async function accessSpreadsheet(zipcode) {
 
     });
 }
+
+//To maximize speed it is necessary to make multiple calls to the google spreadsheet at once (so as to divy up a large data request), though not so many as to overwhelm the server sending the request
 exports.cas = async function accessSpreadsheet(year, neighborhood, sex, race) {
     await promisify(doc.useServiceAccountAuth)(creds)
     var info = await promisify(doc.getInfo)()
@@ -201,6 +159,7 @@ exports.cas = async function accessSpreadsheet(year, neighborhood, sex, race) {
                     out.push([data[i][6 * k].value, data[i][6 * k + 1].value, data[i][6 * k + 2].value, data[i][6 * k + 3].value, data[i][6 * k + 4].value, data[i][6 * k + 5].value]);
                 }
             }
+            // the splitting (as delimited by the '~') facilitates getting requests with multiple years, neighborhoods, sexes, or races  at once
             if (year != null) {
                 out = out.filter(function (element) {
                     return arr = year.split('~').map(x => parseInt(x)).includes(parseInt(element[0]));
